@@ -14,6 +14,11 @@ Because design reviews are stressful. Why not turn them into courtroom drama and
 
 ## 🎬 Trailer
 
+1. Gemini 2.5 Pro (Slow but more reliable)
+
+https://github.com/user-attachments/assets/e1eadf35-6a17-46d2-af94-e84361006728
+
+2. Gemini 2.0 Flash (Fast but less reliable)
 https://github.com/user-attachments/assets/d0f8e3fb-b79f-4fef-b1f3-abdd1f8b6e65
 
 ## 🏁 Getting Started
