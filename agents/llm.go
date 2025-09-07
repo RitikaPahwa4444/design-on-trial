@@ -25,7 +25,7 @@ func NewLLM(ctx context.Context, model string, imageModel string) (*LLM, error) 
 		return nil, err
 	}
 	if model == "" {
-		model = "gemini-2.5-flash"
+		model = "gemini-2.5-pro"
 	}
 	if imageModel == "" {
 		imageModel = "gemini-2.5-flash-image-preview"

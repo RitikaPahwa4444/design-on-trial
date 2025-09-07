@@ -3,6 +3,7 @@ package agents
 import (
 	"context"
 	"fmt"
+	"log"
 	"math/rand"
 	"time"
 )
@@ -18,11 +19,17 @@ func RunDebate(ctx context.Context, llm *LLM, participants []Agent, judge *Agent
 		return nil, fmt.Errorf("need at least two participants")
 	}
 
+	log.Println("The trial is now in session...")
+
 	rnd := rand.New(rand.NewSource(time.Now().UnixNano()))
 	history := make([]Message, 0)
 	started := time.Now()
 
 	for t := 0; ; t++ {
+		if turns == 0 && duration == 0 {
+			break // nothing to limit the debate
+		}
+
 		if turns > 0 && t >= turns {
 			break
 		}
