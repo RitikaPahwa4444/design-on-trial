@@ -16,7 +16,7 @@ Because design reviews are stressful. Why not turn them into courtroom drama and
 
 - Structured Feedback: Developers get a clear report of pros, cons, and final verdict on their design choices.
 - Bias-Free Debate: The Judge persona ensures balanced reasoning instead of hand-wavy arguments.
-- Sharable Artifacts: Teams can use the reports and comics in docs, retros, or presentations.
+- Sharable Artifacts: Teams can use the reports and comics in docs, retros, or presentations. Bring storytelling to life! 
 
 ## 🎬 Trailer
 
