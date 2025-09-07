@@ -13,7 +13,8 @@ Because design reviews are stressful. Why not turn them into courtroom drama and
     - `.md`
 
 ## 🎬 Trailer
-Coming soon.
+
+https://github.com/user-attachments/assets/d0f8e3fb-b79f-4fef-b1f3-abdd1f8b6e65
 
 ## 🏁 Getting Started
 
