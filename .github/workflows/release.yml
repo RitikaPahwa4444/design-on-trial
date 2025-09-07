@@ -32,11 +32,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VERSION: ${{ github.event.inputs.version }}
         run: |
-          # create the tag if it doesn't exist
-          git tag $VERSION || true
-          git push origin $VERSION || true
-
-          # create release
           gh release create "$VERSION" ./dist/* \
             --title "Release $VERSION" \
-            --notes "Automated release $VERSION"
+            --notes "Automated release $VERSION" \
+            --target "${{ github.sha }}"
