@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version (e.g. v1.0.0)"
+        required: true
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: 1.24.4
+
+      - name: Build binaries
+        run: |
+          mkdir -p dist
+          GOOS=linux   GOARCH=amd64 go build -o dist/design-on-trial-linux-amd64   ./cmd/design-on-trial.go
+          GOOS=darwin  GOARCH=amd64 go build -o dist/design-on-trial-darwin-amd64  ./cmd/design-on-trial.go
+          GOOS=windows GOARCH=amd64 go build -o dist/design-on-trial-windows-amd64.exe ./cmd/design-on-trial.go
+
+      - name: Create Release with gh
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ github.event.inputs.version }}
+        run: |
+          # create the tag if it doesn't exist
+          git tag $VERSION || true
+          git push origin $VERSION || true
+
+          # create release
+          gh release create "$VERSION" ./dist/* \
+            --title "Release $VERSION" \
+            --notes "Automated release $VERSION"
