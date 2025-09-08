@@ -7,7 +7,7 @@ Because design reviews are stressful. Why not turn them into courtroom drama and
 
 ## ✨ Features
 - AI-Powered Debate Simulation: multiple personas argue about your HLD/LLD, all in your terminal.
-- Newspaper-Style Report: a comic strip with a two-column summary with pros, cons, and verdict, exported as HTML.
+- Newspaper-Style Report: a comic strip with a two-column summary explaining the pros, cons, and verdict, exported as HTML.
 - Supported file formats:
     - `.txt`
     - `.md`
