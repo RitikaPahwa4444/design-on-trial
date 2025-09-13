@@ -23,14 +23,11 @@ jobs:
       - name: Build binaries
         run: |
           mkdir -p dist
+          cp persona.json dist/
           GOOS=linux   GOARCH=amd64 go build -o dist/design-on-trial-linux-amd64   ./cmd/design-on-trial.go
           GOOS=darwin  GOARCH=amd64 go build -o dist/design-on-trial-darwin-amd64  ./cmd/design-on-trial.go
           GOOS=windows GOARCH=amd64 go build -o dist/design-on-trial-windows-amd64.exe ./cmd/design-on-trial.go
           GOOS=darwin  GOARCH=arm64 go build -o dist/design-on-trial-darwin-arm64  ./cmd/design-on-trial.go
-          
-      - name: Copy persona.json to dist
-        run: |
-          cp persona.json dist/
 
       - name: Create Release with gh
         env:
