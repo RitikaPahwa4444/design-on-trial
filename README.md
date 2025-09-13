@@ -33,6 +33,30 @@ This project uses Gemini 2.5 Flash Image to generate consistent multi-panel cour
 
 ## 🏁 Getting Started
 
+### Using the pre-built binary
+> **Note**
+> 
+> This requires testing on different operating systems. An initial version is out and has been tested on Mac Silicon chip, though. Consider building from source in case you encounter any issues. 
+
+1. Download the latest release from GitHub Releases:
+    - Visit https://github.com/RitikaPahwa4444/design-on-trial/releases and download the pre-built binary
+
+2. Export your Gemini API key:
+```bash
+export GEMINI_API_KEY="your-key-here"
+```
+
+3. Make the binary executable and run:
+
+```bash
+chmod +x design-on-trial
+./design-on-trial --file ../../sample_hld.md --duration 1m
+```
+
+Replace ../../sample_hld.md with the path to your design doc.
+
+---
+
 ### Building from source
 
 Prerequisites:
@@ -67,30 +91,6 @@ Replace ../../sample_hld.md with the path to your design doc.
 
 ---
 
-### Using the pre-built binary (Coming soon)
-> **Note**
-> 
-> This requires testing on different operating systems. An initial version is out, though. For now, consider building from source. 
-
-1. Download the appropriate release from GitHub Releases:
-    - Visit https://github.com/RitikaPahwa4444/design-on-trial/releases and download the pre-built binary
-
-2. Export your Gemini API key:
-```bash
-export GEMINI_API_KEY="your-key-here"
-```
-
-3. Make the binary executable (if needed) and run:
-
-```bash
-chmod +x design-on-trial
-./design-on-trial --file ../../sample_hld.md --duration 1m
-```
-
-Replace ../../sample_hld.md with the path to your design doc.
-
----
-
 ### Usage
 
 Flags:
@@ -109,7 +109,7 @@ go run . --file ../../sample_hld.md --duration 1m --model gemini-2.5-flash --ima
 
 ### 👩🏻‍💻 Development notes
 
-- Personas live in `server/agents/persona.json` (edit to add or tweak personas, not everyone loves a discussion as intense as a courtroom 😉).
+Personas live in `server/agents/persona.json` (edit to add or tweak personas, not everyone loves a discussion as intense as a courtroom 😉).
 
 ## License
 
