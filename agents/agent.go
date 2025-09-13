@@ -48,17 +48,9 @@ func LoadPersonas() ([]Agent, error) {
 
 	// Try persona.json in current directory first (works for both dev and dist)
 	personaJSON, err = os.ReadFile("persona.json")
-	if err != nil {
-		// Fallback: try relative to executable directory
-		if execPath, execErr := os.Executable(); execErr == nil {
-			execDir := filepath.Dir(execPath)
-			fallbackPath := filepath.Join(execDir, "persona.json")
-			personaJSON, err = os.ReadFile(fallbackPath)
-		}
-	}
 
 	if err != nil {
-		return nil, fmt.Errorf("failed to find persona.json in current directory or executable directory: %w", err)
+		return nil, fmt.Errorf("failed to find persona.json: %w", err)
 	}
 
 	var agents Agents
