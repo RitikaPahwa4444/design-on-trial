@@ -30,7 +30,7 @@ jobs:
           
       - name: Copy persona.json to dist
         run: |
-          cp agents/persona.json dist/
+          cp persona.json dist/
 
       - name: Create Release with gh
         env:

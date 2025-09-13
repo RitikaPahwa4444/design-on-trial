@@ -45,12 +45,9 @@ Only return the JSON object and nothing else.
 }
 
 func LoadPersonas() ([]Agent, error) {
-	// Try multiple paths to find persona.json
+	// Try persona.json in current directory first, then fallback to executable directory
 	possiblePaths := []string{
-		"agents/persona.json",    // From project root
-		"../agents/persona.json", // Original path for cmd directory
-		"persona.json",           // Same directory as executable
-		"./persona.json",         // Current working directory
+		"persona.json",           // Current working directory (works for both dev and dist)
 	}
 
 	// If we can determine the executable path, also try looking relative to it

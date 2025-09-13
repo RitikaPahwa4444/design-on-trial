@@ -48,13 +48,10 @@ func TestLoadPersonasFromExecutableDir(t *testing.T) {
 	// Copy persona.json to the temp directory
 	originalPersona, err := os.ReadFile("persona.json")
 	if err != nil {
-		// Try the standard relative path
-		originalPersona, err = os.ReadFile("../agents/persona.json")
+		// Fallback: try to find it in the project
+		originalPersona, err = os.ReadFile("../persona.json")
 		if err != nil {
-			originalPersona, err = os.ReadFile("agents/persona.json")
-			if err != nil {
-				t.Skip("Could not find persona.json for test")
-			}
+			t.Skip("Could not find persona.json for test")
 		}
 	}
 	
