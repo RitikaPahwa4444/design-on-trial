@@ -1,5 +1,5 @@
 
-# design-on-trial
+# design on trial
 
 Your HLDs and LLDs, put on trial. Why? 
 
@@ -113,4 +113,4 @@ Personas live in `server/agents/persona.json` (edit to add or tweak personas, no
 
 ## License
 
-MIT. Because sharing is caring.
+MIT License. Because sharing is caring.
