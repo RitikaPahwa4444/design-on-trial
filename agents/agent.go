@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 )
@@ -44,13 +45,39 @@ Only return the JSON object and nothing else.
 }
 
 func LoadPersonas() ([]Agent, error) {
-	personaJSON, err := os.ReadFile("../agents/persona.json")
-	if err != nil {
-		return nil, fmt.Errorf("failed to read persona.json: %w", err)
+	// Try multiple paths to find persona.json
+	possiblePaths := []string{
+		"agents/persona.json",    // From project root
+		"../agents/persona.json", // Original path for cmd directory
+		"persona.json",           // Same directory as executable
+		"./persona.json",         // Current working directory
 	}
+
+	// If we can determine the executable path, also try looking relative to it
+	if execPath, err := os.Executable(); err == nil {
+		execDir := filepath.Dir(execPath)
+		possiblePaths = append(possiblePaths, filepath.Join(execDir, "persona.json"))
+	}
+
+	var personaJSON []byte
+	var err error
+	var foundPath string
+
+	for _, path := range possiblePaths {
+		personaJSON, err = os.ReadFile(path)
+		if err == nil {
+			foundPath = path
+			break
+		}
+	}
+
+	if foundPath == "" {
+		return nil, fmt.Errorf("failed to find persona.json in any of the expected locations: %v", possiblePaths)
+	}
+
 	var agents Agents
 	if err := json.Unmarshal(personaJSON, &agents); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to parse persona.json from %s: %w", foundPath, err)
 	}
 	return agents.Agents, nil
 }
