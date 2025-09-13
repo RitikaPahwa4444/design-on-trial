@@ -5,11 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 	"time"
 )
-
-var personaJSON []byte
 
 // GenerateArgument generates an argument based on the conversation history and provided PDF text.
 // Returns the generated argument as a string.
@@ -44,13 +43,19 @@ Only return the JSON object and nothing else.
 }
 
 func LoadPersonas() ([]Agent, error) {
-	personaJSON, err := os.ReadFile("../agents/persona.json")
+	var personaJSON []byte
+	var err error
+
+	// Try persona.json in current directory first (works for both dev and dist)
+	personaJSON, err = os.ReadFile("persona.json")
+
 	if err != nil {
-		return nil, fmt.Errorf("failed to read persona.json: %w", err)
+		return nil, fmt.Errorf("failed to find persona.json: %w", err)
 	}
+
 	var agents Agents
 	if err := json.Unmarshal(personaJSON, &agents); err != nil {
-		return nil, err
+		return nil, fmt.Errorf("failed to parse persona.json: %w", err)
 	}
 	return agents.Agents, nil
 }
