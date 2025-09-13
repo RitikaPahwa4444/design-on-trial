@@ -10,8 +10,6 @@ import (
 	"time"
 )
 
-var personaJSON []byte
-
 // GenerateArgument generates an argument based on the conversation history and provided PDF text.
 // Returns the generated argument as a string.
 // GenerateArgument asks the LLM to return JSON with {"argument":"...","tone":"..."}.
@@ -45,36 +43,27 @@ Only return the JSON object and nothing else.
 }
 
 func LoadPersonas() ([]Agent, error) {
-	// Try persona.json in current directory first, then fallback to executable directory
-	possiblePaths := []string{
-		"persona.json",           // Current working directory (works for both dev and dist)
-	}
-
-	// If we can determine the executable path, also try looking relative to it
-	if execPath, err := os.Executable(); err == nil {
-		execDir := filepath.Dir(execPath)
-		possiblePaths = append(possiblePaths, filepath.Join(execDir, "persona.json"))
-	}
-
 	var personaJSON []byte
 	var err error
-	var foundPath string
 
-	for _, path := range possiblePaths {
-		personaJSON, err = os.ReadFile(path)
-		if err == nil {
-			foundPath = path
-			break
+	// Try persona.json in current directory first (works for both dev and dist)
+	personaJSON, err = os.ReadFile("persona.json")
+	if err != nil {
+		// Fallback: try relative to executable directory
+		if execPath, execErr := os.Executable(); execErr == nil {
+			execDir := filepath.Dir(execPath)
+			fallbackPath := filepath.Join(execDir, "persona.json")
+			personaJSON, err = os.ReadFile(fallbackPath)
 		}
 	}
 
-	if foundPath == "" {
-		return nil, fmt.Errorf("failed to find persona.json in any of the expected locations: %v", possiblePaths)
+	if err != nil {
+		return nil, fmt.Errorf("failed to find persona.json in current directory or executable directory: %w", err)
 	}
 
 	var agents Agents
 	if err := json.Unmarshal(personaJSON, &agents); err != nil {
-		return nil, fmt.Errorf("failed to parse persona.json from %s: %w", foundPath, err)
+		return nil, fmt.Errorf("failed to parse persona.json: %w", err)
 	}
 	return agents.Agents, nil
 }
