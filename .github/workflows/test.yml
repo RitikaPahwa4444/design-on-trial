@@ -1,0 +1,55 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    
+    - name: Set up Go
+      uses: actions/setup-go@v5
+      with:
+        go-version: 1.24.4
+    
+    - name: Install dependencies
+      run: go mod download
+    
+    - name: Run gofmt check
+      run: |
+        if [ "$(gofmt -s -l . | wc -l)" -gt 0 ]; then
+          echo "The following files need formatting:"
+          gofmt -s -l .
+          exit 1
+        fi
+    
+    - name: Run go vet
+      run: go vet ./...
+    
+    - name: Run tests
+      run: go test ./... -v -race -coverprofile=coverage.out
+    
+    - name: Generate test coverage report
+      run: go tool cover -html=coverage.out -o coverage.html
+    
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: coverage.html
+    
+    - name: Check test coverage
+      run: |
+        COVERAGE=$(go tool cover -func=coverage.out | grep total | awk '{print substr($3, 1, length($3)-1)}')
+        echo "Total test coverage: ${COVERAGE}%"
+        if (( $(echo "${COVERAGE} < 20" | bc -l) )); then
+          echo "Test coverage is below 20%. Please add more tests."
+          exit 1
+        fi
